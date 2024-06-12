@@ -6,7 +6,7 @@ Assets - This folder contain all necessary asset for the projects found in the p
 
 Components - This folder contain overview components that is used at high level in the whole project. All specific components should be colocated closer to the page which uses them.
 
-Css - Css module will be use (You can inject styled components and setup the css of your choice) and written along in each screen or component folder. The css global folder house global css configuration.
+Css - Styled component is used in this project(You can inject styled components and setup the css of your choice) and written along in each screen or component folder. The css global folder house global css configuration.
 
 Hooks - This contain hook helpers used at high level, local hooks are colocated within the pages folder.
 
