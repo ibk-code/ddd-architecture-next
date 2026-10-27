@@ -1,15 +1,33 @@
-The frontend folder structure is bootstrapted from nextjs (This uses the app router feature allowing RSC and streaming feature). It is working with a DDD (Domain driven design) folder structure.
+The app uses the Next.js App Router. Pages and layouts in `app/` are Server Components by default, and route segments can stream.
 
-Api - This folder contain all api instance configuration and connection
+## Where code goes
 
-Assets - This folder contain all necessary asset for the projects found in the public folder (images, icons)
+Add a route under `app/`. Keep the components, hooks, and styles used by that route next to it.
 
-Components - This folder contain overview components that is used at high level in the whole project. All specific components should be colocated closer to the page which uses them.
+`components/` is for UI shared by more than one route. Do not create it for a single screen.
 
-Css - Styled component is used in this project(You can inject styled components and setup the css of your choice) and written along in each screen or component folder. The css global folder house global css configuration.
+`public/` holds static assets such as images and icons.
 
-Hooks - This contain hook helpers used at high level, local hooks are colocated within the pages folder.
+Shared helpers that are not tied to one route can live in `lib/` once they exist. Server-side data access belongs in a Server Component, a route handler under `app/api/`, or a small module in `lib/` that those call. Do not add a root `Api/` folder or a browser client that every page calls.
 
-Utils - This house the utility and helper functions for the general codebase.
+Do not add a global client store. Use server data, the URL, or cookies. Add a client store only when several client components must share state that does not belong in the URL. Keep hooks next to the client components that use them.
 
-stores - This house the folder for managing the state-manager or context for the app
+When a request needs a redirect, rewrite, or header change, add `proxy.ts`. It runs on the Node.js runtime.
+
+## Styling
+
+Tailwind CSS is the styling system. `app/globals.css` is the only Tailwind entry. It imports the global partials:
+
+- `css/abstracts/_variable.css` for tokens
+- `css/base/_base.css` and `css/base/_typography.css` for element defaults
+- `css/utils/helper.css` for shared helper classes
+
+Route-specific styles stay with that route. Tailwind preflight is the CSS reset.
+
+## Data and request APIs
+
+`fetch` is not cached unless the call sets a cache option. In a page, layout, or route handler, await `params`, `searchParams`, `cookies()`, `headers()`, and `draftMode()` before reading them.
+
+## Runtime
+
+The app targets Node.js 24 or newer. See `package.json` for the Next.js, React, TypeScript, and Tailwind versions.
